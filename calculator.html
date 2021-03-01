@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+	background-color: black;
+}
+
+#zero {
+	width: 49.8%;
+	text-align: left;
+	padding-left: 220px;
+}
+
+button {
+	height: 152px;
+	width: 24.8%;
+	align: center;
+	font-size: 60px;
+	color: white;
+	background-color: grey;
+}
+
+.misc {
+	background-color: lightgrey;
+	color: black;
+}
+
+input {
+	font: Arial;
+	width: 100%;
+	text-align: right;
+	border: solid black;
+	background-color: black;
+	color: white;
+	font-size: 120px;
+	float: right;
+}
+
+.operator {
+	background-color: orange;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+
+
+<body>
+<form>
+	<input type='text' value=0 readonly>
+</form>
+
+<button id='clear' class='misc'>AC</button>
+<button id='sign' class='misc'>+/-</button>
+<button id='percent' class='misc'>%</button>
+<button class='operator' onclick='operate($(this).text())'>&divide;</button><br>
+<button class='digit' onclick='keyIn($(this).text())'>7</button>
+<button class='digit' onclick='keyIn($(this).text())'>8</button>
+<button class='digit' onclick='keyIn($(this).text())'>9</button>
+<button class='operator' onclick='operate($(this).text())'>x</button><br>
+<button class='digit' onclick='keyIn($(this).text())'>4</button>
+<button class='digit' onclick='keyIn($(this).text())'>5</button>
+<button class='digit' onclick='keyIn($(this).text())'>6</button>
+<button class='operator' onclick='operate($(this).text())'>-</button><br>
+<button class='digit' onclick='keyIn($(this).text())'>1</button>
+<button class='digit' onclick='keyIn($(this).text())'>2</button>
+<button class='digit' onclick='keyIn($(this).text())'>3</button>
+<button class='operator' onclick='operate($(this).text())'>+</button><br>
+<button class='digit' id='zero' onclick='keyIn($(this).text())'>0</button>
+<button class='digit' onclick='decimal()'>.</button>
+<button class='operator' onclick='calculate()'>=</button>
+
+
+
+<script>
+var storage;
+var operator;
+
+function keyIn(value) {
+	if ($('input').val() == '0') {
+		$('input').val(value);
+	} else {
+		$('input').val($('input').val() + value.toString());
+}
+}
+
+
+function decimal() {
+	if ($('input').val() == 0) {
+		$('input').val('0.');
+	} else {
+		$('input').val($('input').val() + '.');
+}
+}
+
+function operate(action) {
+	storage = Number($('input').val());
+	$('input').val(null);
+	operator = action;
+}
+
+function calculate() {
+	var current = Number($('input').val());
+	switch (operator) {
+		case '+':
+			$('input').val(current + storage);
+			break;
+		case 'x':
+			$('input').val(current * storage);
+			break;
+
+		case '÷':
+			$('input').val(storage / current);
+			break;
+
+		case '-':
+			$('input').val(storage - current);
+			break;
+	}
+} 
+
+$('#clear').click(function(){
+	$('input').val('0');
+});
+
+
+$('#sign').click(function(){
+	var current = $('input').val();
+	if (current > 0) {
+		$('input').val('-' + current);
+	} else if (current < 0) {
+		$('input').val(current.slice(1));
+	}
+}); 
+
+
+$('#percent').click(function(){
+	$('input').val($('input').val() / 100);
+});
+</script>
+
+</body>
+</html>
